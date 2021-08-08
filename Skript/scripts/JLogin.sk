@@ -1,0 +1,188 @@
+#                  LOGINSYS BY J4TH                       #
+#                DEVELOPPE POUR FIVEMC                    #
+
+# NE MODIFIEZ PAS CETTE PARTIE DU CODE SANS LA PERMISSION DE J4TH #
+# POUR MODIFIER LES MESSAGES, RENDEZ VOUS DANS LE FICHIER LOCALE.YML #
+
+import:
+    ch.njol.skript.Skript
+    java.io.BufferedReader
+    java.io.InputStreamReader
+    java.net.URL
+
+on script load:
+    send "&eJLogin &6| &7Loading the plugin..." to console
+
+    load yaml "plugins/JLogin/config.yml"
+    load yaml "plugins/JLogin/locale.yml"
+    set header of "config" to "Paramètres du système de login fais par J4th_"
+    set header of "locale" to "Messages de langue du skript"
+
+    set yaml value "prefix" from "config" to "&6&lJ&f&lLogin" if yaml node "prefix" from "config" doesn't have value
+    set comment of yaml node "prefix" from "config" to "Prefix du plugin, vous pouvez le modifier comme vous voulez"
+    set yaml value "blindness" from "config" to true if yaml node "blindness" from "config" doesn't have value
+    set comment of yaml node "blindness" from "config" to "Activer ou non l'effet de blindness lorsque le joueur n'est pas connecté (true/false)"
+    set yaml value "teleport" from "config" to false if yaml node "teleport" from "config" doesn't have value
+    set comment of yaml node "teleport" from "config" to "Activer ou non la teleportation lors de la connexion (true/false)" and "Faites /setautoteleport pour placer le point de téléportation."
+    
+    set yaml value "welcome-register-message" from "locale" to "&f &8&l- &f &aBienvenue ! &7 Pour vous enregistrer, faites &e/register votre-mot-de-passe" if yaml node "welcome-register-message" from "locale" doesn't have value
+    set yaml value "welcome-login-message" from "locale" to "&f &8&l- &f &aBienvenue ! &7 Pour vous connecter, faites &e/login votre-mot-de-passe" if yaml node "welcome-login-message" from "locale" doesn't have value
+    set yaml value "success-password-register" from "locale" to "&f &8&l- &f &aEffectué ! &7Le mot de passe à bien été enregistré !" if yaml node "success-password-register" from "locale" doesn't have value
+    set yaml value "need-define-a-password" from "locale" to "&f &8&l- &f &cErreur ! &7 Veuillez définir un mot de passe: &e/register votre-mot-de-passe." if yaml node "need-define-a-password" from "locale" doesn't have value
+    set yaml value "password-already-define" from "locale" to "&f &8&l- &f &cErreur ! &7 Vous avez déjà définis votre mot de passe, pour le changer, connectez vous d'abord." if yaml node "password-already-define" from "locale" doesn't have value
+    set yaml value "success-password-change" from "locale" to "&f &8&l- &f &aEffectué ! &7Le mot de passe à bien été changé !" if yaml node "success-password-change" from "locale" doesn't have value
+    set yaml value "sync-error" from "locale" to "&f &8&l- &f &cErreur ! &7Une erreure de syncronisation est survenue." if yaml node "sync-error" from "locale" doesn't have value
+    set yaml value "success-password-login" from "locale" to "&f &8&l- &f &aEffectué ! &7Vous êtes desormais connécté &7!" if yaml node "success-password-login" from "locale" doesn't have value
+    set yaml value "wrong-password" from "locale" to "&f &8&l- &f &cErreur ! &7 Mauvais mot de passe." if yaml node "wrong-password" from "locale" doesn't have value
+    set yaml value "need-login-password" from "locale" to "&f &8&l- &f &cErreur ! &7 Veuillez mettre un mot de passe: &e/login votre-mot-de-passe." if yaml node "need-login-password" from "locale" doesn't have value
+    set yaml value "register-before-connecting" from "locale" to "&f &8&l- &f &cErreur ! &7 Veuillez vous enregistrer avant de vous connecter: &e/register votre-mot-de-passe." if yaml node "register-before-connecting" from "locale" doesn't have value
+    set yaml value "already-connected" from "locale" to "&f &8&l- &f &cErreur ! &7Vous êtes déjà connecté." if yaml node "already-connected" from "locale" doesn't have value
+    set yaml value "teleport-point-set" from "locale" to "&f &8&l- &f &aEffectué ! &7Le point de téléportation automatique à été placé." if yaml node "teleport-point-set" from "locale" doesn't have value
+    set yaml value "no-permission" from "locale" to "&f &8&l- &f &cErreur ! &7Vous n'avez pas la permission de faire cela." if yaml node "no-permission" from "locale" doesn't have value
+    set yaml value "password-deleted" from "locale" to "&f &8&l- &f &aEffectué ! &7Le mot de passe de cet utilisateur à été supprimé." if yaml node "password-deleted" from "locale" doesn't have value
+    set yaml value "specify-player-name" from "locale" to "&f &8&l- &f &cErreur ! &7Veuillez préciser le nom d'un joueur." if yaml node "specify-player-name" from "locale" doesn't have value
+
+    save yaml "config"
+    save yaml "locale"
+
+    set {prefixJLogin} to yaml value "prefix" from "config"
+    set {blindnessJLogin} to yaml value "blindness" from "config"
+    set {teleportonjoinJLogin} to yaml value "teleport" from "config"
+
+    set {jlogin-welcome-register-message} to yaml value "welcome-register-message" from "locale"
+    set {jlogin-welcome-login-message} to yaml value "welcome-login-message" from "locale"
+    set {jlogin-success-password-register} to yaml value "success-password-register" from "locale"
+    set {jlogin-need-define-a-password} to yaml value "need-define-a-password" from "locale"
+    set {jlogin-password-already-define} to yaml value "password-already-define" from "locale"
+    set {jlogin-success-password-change} to yaml value "success-password-change" from "locale"
+    set {jlogin-sync-error} to yaml value "sync-error" from "locale"
+    set {jlogin-success-password-login} to yaml value "success-password-login" from "locale"
+    set {jlogin-wrong-password} to yaml value "wrong-password" from "locale"
+    set {jlogin-need-login-password} to yaml value "need-login-password" from "locale"
+    set {jlogin-register-before-connecting} to yaml value "register-before-connecting" from "locale"
+    set {jlogin-already-connected} to yaml value "already-connected" from "locale"
+    set {jlogin-teleport-point-set} to yaml value "teleport-point-set" from "locale"
+    set {jlogin-no-permission} to yaml value "no-permission" from "locale"
+    set {jlogin-password-deleted} to yaml value "password-deleted" from "locale"
+    set {jlogin-specify-player-name} to yaml value "specify-player-name" from "locale"
+
+    send "&eJLogin &6| &7Loading successfull" to console
+    send "&eJLogin &6| &7Login system by J4th_" to console
+
+# ACTIVER L'AUTH EN SE CONNECTANT
+
+on join:
+    set {unloggedPlayer.%player%} to "true"
+    if {blindnessJLogin} is true:
+        apply blindness 3 without any particles to player for 100000 seconds
+    if {teleportonjoinJLogin} is true:
+        if {tponjoinlocationJLogin} is set:
+            teleport player to {tponjoinlocationJLogin}
+
+on any move:
+    if {unloggedPlayer.%player%} is set:
+        if {logPassword.%player%} isn't set:
+            message "%{prefixJLogin}%%{jlogin-welcome-register-message}%"
+        else:
+            message "%{prefixJLogin}%%{jlogin-welcome-login-message}%"
+        cancel event
+
+command /register [<text>]:
+    trigger:
+        if {unloggedPlayer.%player%} is set:
+            if {logPassword.%player%} isn't set:
+                if arg-1 is set:
+                    delete {unloggedPlayer.%player%}
+                    set {_tempmdp} to arg-1 hashed with MD5
+                    set {_tempmdp} to {_tempmdp} hashed with SHA-256
+                    set {logPassword.%player%} to {_tempmdp}
+                    message "%{prefixJLogin}%%{jlogin-success-password-register}%"
+                    if {blindnessJLogin} is true:
+                        remove blindness from player
+                else:
+                    message "%{prefixJLogin}%%{jlogin-need-define-a-password}%" to player
+            else:
+                message "%{prefixJLogin}%%{jlogin-password-already-define}%" to player
+        else:
+            if {logPassword.%player%} is set:
+                if arg-1 is set:
+                    delete {unloggedPlayer.%player%}
+                    set {_tempmdp} to arg-1 hashed with MD5
+                    set {_tempmdp} to {_tempmdp} hashed with SHA-256
+                    set {logPassword.%player%} to {_tempmdp}
+                    message "%{prefixJLogin}%%{jlogin-success-password-change}%"
+                    if {blindnessJLogin} is true:
+                        remove blindness from player
+                else:
+                    message "%{prefixJLogin}%%{jlogin-need-define-a-password}%" to player
+            else:
+                message "%{prefixJLogin}%%{jlogin-sync-error}%" to player
+
+command /login [<text>]:
+    trigger:
+        if {unloggedPlayer.%player%} is set:
+            if {logPassword.%player%} is set:
+                if arg-1 is set:
+                    set {_tempmdp} to arg-1 hashed with MD5
+                    set {_tempmdp} to {_tempmdp} hashed with SHA-256
+                    if {_tempmdp} is {logPassword.%player%}:
+                        delete {unloggedPlayer.%player%}
+                        message "%{prefixJLogin}%%{jlogin-success-password-login}%"
+                        if {blindnessJLogin} is true:
+                            remove blindness from player
+                    else:
+                        message "%{prefixJLogin}%%{jlogin-wrong-password}%" to player
+                else:
+                    message "%{prefixJLogin}%%{jlogin-need-login-password}%" to player
+            else:
+                message "%{prefixJLogin}%%{jlogin-register-before-connecting}%" to player
+        else:
+            message "%{prefixJLogin}%%{jlogin-already-connected}%" to player
+
+command /setautoteleport:
+    trigger:
+        if player has permission "jlogin.setteleportpoint":
+            set {tponjoinlocationJLogin} to player's location
+            message "%{prefixJLogin}%%{jlogin-teleport-point-set}%"
+        else:
+            message "%{prefixJLogin}%%{jlogin-no-permission}%" to player
+
+command /resetpassword [<text>]:
+    trigger:
+        if player has permission "jlogin.resetpassword":
+            if arg-1 is set:
+                delete {logPassword.%arg-1%}
+                message "%{prefixJLogin}%%{jlogin-password-deleted}%" to player
+            else:
+                message "%{prefixJLogin}%%{jlogin-specify-player-name}%" to player
+        else:
+            message "%{prefixJLogin}%%{jlogin-no-permission}%" to player
+
+
+on command:
+    if {unloggedPlayer.%player%} is set:
+        if command is "login" or "register":
+            stop
+        else:
+            cancel event
+
+on drop:
+    if {unloggedPlayer.%player%} is set:
+        cancel event
+
+on pick up:
+    if {unloggedPlayer.%player%} is set:
+        cancel event
+
+on damage:
+    if victim is a player:
+        if {unloggedPlayer.%victim%} is set:
+            cancel event
+
+on place:
+    if {unloggedPlayer.%player%} is set:
+        cancel event
+
+on break:
+    if {unloggedPlayer.%player%} is set:
+        cancel event
