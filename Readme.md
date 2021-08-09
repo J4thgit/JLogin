@@ -12,3 +12,8 @@
 4. Go to the plugin folder: minecraft/plugins/JLogin
 5. Open config.yml and edit it with your options
 6. Open locale.yml and translate the plugin in your language
+
+----------------------- OTHER LINKS --------------------------
+
+We can find other language translation and a better installation tutorial on the documentation.
+Documentation: https://github.com/J4thgit/JLogin
