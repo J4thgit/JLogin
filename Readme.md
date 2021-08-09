@@ -16,4 +16,4 @@
 ----------------------- OTHER LINKS --------------------------
 
 We can find other language translation and a better installation tutorial on the documentation.
-Documentation: https://github.com/J4thgit/JLogin
+Documentation: https://jcoding.gitbook.io/jlogin-docs/
