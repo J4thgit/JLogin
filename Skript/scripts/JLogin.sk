@@ -1,8 +1,8 @@
-#                  LOGINSYS BY J4TH                       #
-#                DEVELOPPE POUR FIVEMC                    #
+#                   JLOGIN BY J4TH                        #
+#     ORIGINALLY DEVELOPED FOR FENDORIA BY JCODING        #
 
-# NE MODIFIEZ PAS CETTE PARTIE DU CODE SANS LA PERMISSION DE J4TH #
-# POUR MODIFIER LES MESSAGES, RENDEZ VOUS DANS LE FICHIER LOCALE.YML #
+# DO NOT MODIFY THIS PART OF THE CODE WITHOUT THE AUTHORIZATION OF J4TH #
+# TO MODIFY THE MESSAGES, GO TO THE LOCALE.YML FILE #
 
 import:
     ch.njol.skript.Skript
@@ -15,32 +15,32 @@ on script load:
 
     load yaml "plugins/JLogin/config.yml"
     load yaml "plugins/JLogin/locale.yml"
-    set header of "config" to "Paramètres du système de login fais par J4th_"
-    set header of "locale" to "Messages de langue du skript"
+    set header of "config" to "Settings of JLogin system by J4th. Documentation can be found at https://jcoding.gitbook.io/jlogin-docs/"
+    set header of "locale" to "Language messages, you can find translation at https://jcoding.gitbook.io/jlogin-docs/"
 
     set yaml value "prefix" from "config" to "&6&lJ&f&lLogin" if yaml node "prefix" from "config" doesn't have value
-    set comment of yaml node "prefix" from "config" to "Prefix du plugin, vous pouvez le modifier comme vous voulez"
+    set comment of yaml node "prefix" from "config" to "Prefix of the plugin, you can modify it as you want."
     set yaml value "blindness" from "config" to true if yaml node "blindness" from "config" doesn't have value
-    set comment of yaml node "blindness" from "config" to "Activer ou non l'effet de blindness lorsque le joueur n'est pas connecté (true/false)"
+    set comment of yaml node "blindness" from "config" to "Activate or not the blindness effect when the player is not connected (true/false)."
     set yaml value "teleport" from "config" to false if yaml node "teleport" from "config" doesn't have value
-    set comment of yaml node "teleport" from "config" to "Activer ou non la teleportation lors de la connexion (true/false)" and "Faites /setautoteleport pour placer le point de téléportation."
+    set comment of yaml node "teleport" from "config" to "Activate or not teleportation when connecting (true/false)" and "Do /setautoteleport to place the teleportation point."
     
-    set yaml value "welcome-register-message" from "locale" to "&f &8&l- &f &aBienvenue ! &7 Pour vous enregistrer, faites &e/register votre-mot-de-passe" if yaml node "welcome-register-message" from "locale" doesn't have value
-    set yaml value "welcome-login-message" from "locale" to "&f &8&l- &f &aBienvenue ! &7 Pour vous connecter, faites &e/login votre-mot-de-passe" if yaml node "welcome-login-message" from "locale" doesn't have value
-    set yaml value "success-password-register" from "locale" to "&f &8&l- &f &aEffectué ! &7Le mot de passe à bien été enregistré !" if yaml node "success-password-register" from "locale" doesn't have value
-    set yaml value "need-define-a-password" from "locale" to "&f &8&l- &f &cErreur ! &7 Veuillez définir un mot de passe: &e/register votre-mot-de-passe." if yaml node "need-define-a-password" from "locale" doesn't have value
-    set yaml value "password-already-define" from "locale" to "&f &8&l- &f &cErreur ! &7 Vous avez déjà définis votre mot de passe, pour le changer, connectez vous d'abord." if yaml node "password-already-define" from "locale" doesn't have value
-    set yaml value "success-password-change" from "locale" to "&f &8&l- &f &aEffectué ! &7Le mot de passe à bien été changé !" if yaml node "success-password-change" from "locale" doesn't have value
-    set yaml value "sync-error" from "locale" to "&f &8&l- &f &cErreur ! &7Une erreure de syncronisation est survenue." if yaml node "sync-error" from "locale" doesn't have value
-    set yaml value "success-password-login" from "locale" to "&f &8&l- &f &aEffectué ! &7Vous êtes desormais connécté &7!" if yaml node "success-password-login" from "locale" doesn't have value
-    set yaml value "wrong-password" from "locale" to "&f &8&l- &f &cErreur ! &7 Mauvais mot de passe." if yaml node "wrong-password" from "locale" doesn't have value
-    set yaml value "need-login-password" from "locale" to "&f &8&l- &f &cErreur ! &7 Veuillez mettre un mot de passe: &e/login votre-mot-de-passe." if yaml node "need-login-password" from "locale" doesn't have value
-    set yaml value "register-before-connecting" from "locale" to "&f &8&l- &f &cErreur ! &7 Veuillez vous enregistrer avant de vous connecter: &e/register votre-mot-de-passe." if yaml node "register-before-connecting" from "locale" doesn't have value
-    set yaml value "already-connected" from "locale" to "&f &8&l- &f &cErreur ! &7Vous êtes déjà connecté." if yaml node "already-connected" from "locale" doesn't have value
-    set yaml value "teleport-point-set" from "locale" to "&f &8&l- &f &aEffectué ! &7Le point de téléportation automatique à été placé." if yaml node "teleport-point-set" from "locale" doesn't have value
-    set yaml value "no-permission" from "locale" to "&f &8&l- &f &cErreur ! &7Vous n'avez pas la permission de faire cela." if yaml node "no-permission" from "locale" doesn't have value
-    set yaml value "password-deleted" from "locale" to "&f &8&l- &f &aEffectué ! &7Le mot de passe de cet utilisateur à été supprimé." if yaml node "password-deleted" from "locale" doesn't have value
-    set yaml value "specify-player-name" from "locale" to "&f &8&l- &f &cErreur ! &7Veuillez préciser le nom d'un joueur." if yaml node "specify-player-name" from "locale" doesn't have value
+    set yaml value "welcome-register-message" from "locale" to "&f &8&l- &f &aWelcome ! &7 For register, do &e/register your-password" if yaml node "welcome-register-message" from "locale" doesn't have value
+    set yaml value "welcome-login-message" from "locale" to "&f &8&l- &f &aWelcome ! &7 For login, do &e/login your-password" if yaml node "welcome-login-message" from "locale" doesn't have value
+    set yaml value "success-password-register" from "locale" to "&f &8&l- &f &aDone ! &7The password has been saved !" if yaml node "success-password-register" from "locale" doesn't have value
+    set yaml value "need-define-a-password" from "locale" to "&f &8&l- &f &cError ! &7 Please set a password: &e/register your-password." if yaml node "need-define-a-password" from "locale" doesn't have value
+    set yaml value "password-already-define" from "locale" to "&f &8&l- &f &cError ! &7 You have already set your password, to change it, log in first." if yaml node "password-already-define" from "locale" doesn't have value
+    set yaml value "success-password-change" from "locale" to "&f &8&l- &f &aDone ! &7The password has been changed!" if yaml node "success-password-change" from "locale" doesn't have value
+    set yaml value "sync-error" from "locale" to "&f &8&l- &f &cError ! &7A syncronization error has occurred." if yaml node "sync-error" from "locale" doesn't have value
+    set yaml value "success-password-login" from "locale" to "&f &8&l- &f &aDone ! &7You are now connected &7!" if yaml node "success-password-login" from "locale" doesn't have value
+    set yaml value "wrong-password" from "locale" to "&f &8&l- &f &cError ! &7 Wrong password." if yaml node "wrong-password" from "locale" doesn't have value
+    set yaml value "need-login-password" from "locale" to "&f &8&l- &f &cError ! &7 Please enter a password: &e/login your-password." if yaml node "need-login-password" from "locale" doesn't have value
+    set yaml value "register-before-connecting" from "locale" to "&f &8&l- &f &cError ! &7 Please register before logging in: &e/register your-password." if yaml node "register-before-connecting" from "locale" doesn't have value
+    set yaml value "already-connected" from "locale" to "&f &8&l- &f &cError ! &7You are already logged." if yaml node "already-connected" from "locale" doesn't have value
+    set yaml value "teleport-point-set" from "locale" to "&f &8&l- &f &aDone ! &7The automatic teleportation point has been placed." if yaml node "teleport-point-set" from "locale" doesn't have value
+    set yaml value "no-permission" from "locale" to "&f &8&l- &f &cError ! &7You don't have permission to do this." if yaml node "no-permission" from "locale" doesn't have value
+    set yaml value "password-deleted" from "locale" to "&f &8&l- &f &aDone ! &7This user's password has been deleted." if yaml node "password-deleted" from "locale" doesn't have value
+    set yaml value "specify-player-name" from "locale" to "&f &8&l- &f &cError ! &7Please specify the name of a player." if yaml node "specify-player-name" from "locale" doesn't have value
 
     save yaml "config"
     save yaml "locale"
